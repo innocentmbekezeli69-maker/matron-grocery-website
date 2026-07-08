@@ -21,17 +21,17 @@ function renderItemCard(
 
     $imageSrc =
         "https://matron-grocery-api.onrender.com/images/" .
-        urlencode($image);
+        rawurlencode($image);
 
     echo '<div class="product-card">';
 
     echo '<div class="product-image-container">';
 
-    echo 'Src . '"
-            alt="' . htmlspecialchars($desc) . '"
-            class="product-img"
-            onclick="openImageModal(this)"
-            style="cursor:pointer;">';
+    echo '' .
+         $imageSrc .
+         '"
+         onclick="openImageModal(this)"
+         style="cursor:pointer;">';
 
     echo '</div>';
 
@@ -46,14 +46,10 @@ function renderItemCard(
          '</p>';
 
     echo '<p class="price">R ' .
-         number_format(
-             (float)$price,
-             2
-         ) .
+         number_format((float)$price, 2) .
          '</p>';
 
-    echo '<button
-            class="btn-add"
+    echo '<button class="btn-add"
             onclick="addToCart(
                 \'' . htmlspecialchars($id) . '\',
                 \'' . htmlspecialchars($desc) . '\',
@@ -73,17 +69,9 @@ function renderItemCard(
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>
-        Resident Order Portal
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="styles.css">
-
+    <title>Resident Order Portal</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -139,10 +127,7 @@ function renderItemCard(
                 $result->num_rows > 0
             ) {
 
-                while (
-                    $row =
-                    $result->fetch_assoc()
-                ) {
+                while ($row = $result->fetch_assoc()) {
 
                     renderItemCard(
                         $row['ItemID'],
@@ -155,10 +140,9 @@ function renderItemCard(
 
             } else {
 
-                echo '
-                <p class="empty-msg">
-                    No products available.
-                </p>';
+                echo '<p class="empty-msg">
+                        No products available.
+                      </p>';
 
             }
 
@@ -170,9 +154,7 @@ function renderItemCard(
 
     <aside class="cart-section">
 
-        <h3>
-            Your Order Summary
-        </h3>
+        <h3>Your Order Summary</h3>
 
         <hr>
 
@@ -240,9 +222,7 @@ let cart = [];
 function addToCart(id, desc, price)
 {
     const existingItem =
-        cart.find(
-            item => item.id === id
-        );
+        cart.find(item => item.id === id);
 
     if (existingItem)
     {
@@ -333,32 +313,22 @@ function submitFinalOrder()
         return;
     }
 
-    fetch(
-        'submit_order.php',
-        {
-            method: 'POST',
-
-            headers: {
-                'Content-Type':
-                    'application/json'
-            },
-
-            body: JSON.stringify({
-                cart: cart
-            })
-        }
-    )
+    fetch('submit_order.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cart: cart
+        })
+    })
     .then(response => response.json())
     .then(data =>
     {
         if (data.success)
         {
-            alert(
-                'Order submitted successfully!'
-            );
-
+            alert('Order submitted successfully!');
             cart = [];
-
             renderCart();
         }
         else
@@ -372,10 +342,7 @@ function submitFinalOrder()
     .catch(error =>
     {
         console.error(error);
-
-        alert(
-            'Unable to connect to server.'
-        );
+        alert('Unable to connect to server.');
     });
 }
 
@@ -391,33 +358,25 @@ function openImageModal(imgElement)
             'modalTargetImage'
         );
 
-    modalImg.src =
-        imgElement.src;
+    modalImg.src = imgElement.src;
+    modalImg.alt = imgElement.alt;
 
-    modalImg.alt =
-        imgElement.alt;
-
-    modal.classList.add(
-        'is-visible'
-    );
+    modal.classList.add('is-visible');
 }
 
 function closeImageModal()
 {
-    const modal =
-        document.getElementById(
+    document
+        .getElementById(
             'imagePreviewModal'
-        );
-
-    modal.classList.remove(
-        'is-visible'
-    );
+        )
+        .classList
+        .remove('is-visible');
 }
 
 </script>
 
 </body>
-
 </html>
 
 <?php
