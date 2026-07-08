@@ -26,9 +26,11 @@ function renderItemCard(
     echo '<div class="product-card">';
 
     echo '<div class="product-image-container">';
-    echo '' .
-         $imageSrc .
-         '="cursor:pointer;">';
+
+    echo '<img
+            src="' . $imageSrc . '"
+            alt="' . htmlspecialchars;
+
     echo '</div>';
 
     echo '<div class="product-info">';
@@ -37,18 +39,16 @@ function renderItemCard(
          htmlspecialchars($desc) .
          '</h4>';
 
-    echo '<p class="item-id">';
-    echo 'Code: ' .
-         htmlspecialchars($id);
-    echo '</p>';
+    echo '<p class="item-id">Code: ' .
+         htmlspecialchars($id) .
+         '</p>';
 
-    echo '<p class="price">';
-    echo 'R ' .
+    echo '<p class="price">R ' .
          number_format(
              (float)$price,
              2
-         );
-    echo '</p>';
+         ) .
+         '</p>';
 
     echo '<button
             class="btn-add"
@@ -63,6 +63,7 @@ function renderItemCard(
     echo '</div>';
 
     echo '</div>';
+
 }
 
 ?>
@@ -92,20 +93,19 @@ function renderItemCard(
 
     <div class="nav-user">
 
-        Active Session:
+    Active Session:
 
-        <span id="userDisplay">
-            <?php echo htmlspecialchars($_SESSION['username']); ?>
-        </span>
+    <span id="userDisplay">
+        <?php echo htmlspecialchars($_SESSION['username']); ?>
+    </span>
 
-        |
+    |
 
-        " class="logout-link">
-            Sign Out
-        </a>
+    .php" class="logout-link">
+        Sign Out
+    </a>
 
-    </div>
-
+</div>
 </header>
 
 <div class="main-layout">
