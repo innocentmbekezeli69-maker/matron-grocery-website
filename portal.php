@@ -100,13 +100,12 @@ require_once 'db_config.php';
 
                         <div class="product-image-container">
 
-                             $imageUrl; ?>"
-                                alt="<?php echo htmlspecialchars($row['Description']); ?>"
-                                class="product-img"
-                                onclick="openImageModal(this)"
-                                style="cursor:pointer;">
+    <imgp echo $imageUrl; ?> echo htmlspecialchars($row['Description']); ?>"
+        class="product-img"
+        onclick="openImageModal(this)"
+        style="cursor:pointer;">
 
-                        </div>
+</div>
 
                         <div class="product-info">
 
