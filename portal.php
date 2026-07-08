@@ -20,16 +20,18 @@ function renderItemCard(
 ) {
 
     $imageSrc =
-        "https://matron-grocery-api.onrender.com/images/" .
-        urlencode($image);
+    "https://matron-grocery-api.onrender.com/images/" .
+    urlencode($image);
 
     echo '<div class="product-card">';
 
     echo '<div class="product-image-container">';
 
-    echo '<img
-            src="' . $imageSrc . '"
-            alt="' . htmlspecialchars;
+   echo '<img src="' .
+     $imageSrc .
+     '" alt="' .
+     htmlspecialchars($desc) .
+     '" 
 
     echo '</div>';
 
