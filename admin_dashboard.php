@@ -69,6 +69,7 @@ if (isset($_POST['add_item'])) {
                 </thead>
                 <tbody>
                     <?php
+                    // Executing catalog query with error handling setup
                     $catResult = $conn->query("SELECT * FROM tblGroceryItems");
                     if ($catResult && $catResult->num_rows > 0) {
                         while($item = $catResult->fetch_assoc()) {
@@ -78,17 +79,18 @@ if (isset($_POST['add_item'])) {
                             $dbImgFile = !empty($item['Image']) ? $item['Image'] : 'default.jpg';
                             $imagePath = "images/" . htmlspecialchars($dbImgFile);
 
+                            // Cleaned up outputs using htmlspecialchars to prevent XSS breakout issues
                             echo "<tr>";
                             // FIX 5: Rendered the actual HTML image thumbnail tag 
                             echo "<td><img src='{$imagePath}' alt='Product' style='width:50px; height:50px; object-fit:contain; display:block; margin:auto;'></td>";
-                            echo "<td>{$item['ItemID']}</td>";
-                            echo "<td>{$item['Description']}</td>";
-                            echo "<td>R " . number_format($item['Price'],2) . "</td>";
+                            echo "<td>" . htmlspecialchars($item['ItemID']) . "</td>";
+                            echo "<td>" . htmlspecialchars($item['Description']) . "</td>";
+                            echo "<td>R " . number_format($item['Price'], 2) . "</td>";
                             echo "<td>{$badge}</td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5' class='empty-msg'>No inventory records injected. Use the row generator utility above.</td></tr>";
+                        echo "<tr><td colspan='5' class='empty-msg'>No inventory records found. Make sure the 'tblGroceryItems' table exists and has been populated.</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -101,8 +103,8 @@ if (isset($_POST['add_item'])) {
                 <div class="date-filter-form">
                     <label>Timeline Window Selection:</label>
                     <div class="date-inputs">
-                        <input type="date" name="startDate" value="<?php echo $startDate; ?>">
-                        <input type="date" name="endDate" value="<?php echo $endDate; ?>">
+                        <input type="date" name="startDate" value="<?php echo htmlspecialchars($startDate); ?>">
+                        <input type="date" name="endDate" value="<?php echo htmlspecialchars($endDate); ?>">
                     </div>
                 </div>
                 <div class="report-buttons">
@@ -126,7 +128,7 @@ if (isset($_POST['add_item'])) {
                             $res = $stmt->get_result();
                             echo "<table><thead><tr><th>Item ID</th><th>Description</th><th>Total Units Demanded</th><th>Combined Cost</th></tr></thead><tbody>";
                             while($r = $res->fetch_assoc()) {
-                                echo "<tr><td>{$r['ItemID']}</td><td>{$r['Description']}</td><td>{$r['TotalVolume']}</td><td>R " . number_format($r['CumulativeCost'], 2) . "</td></tr>";
+                                echo "<tr><td>" . htmlspecialchars($r['ItemID']) . "</td><td>" . htmlspecialchars($r['Description']) . "</td><td>" . htmlspecialchars($r['TotalVolume']) . "</td><td>R " . number_format($r['CumulativeCost'], 2) . "</td></tr>";
                             }
                             echo "</tbody></table>";
                             $stmt->close();
@@ -141,7 +143,7 @@ if (isset($_POST['add_item'])) {
                             $res = $stmt->get_result();
                             echo "<table><thead><tr><th>Item ID</th><th>Description</th><th>Order Occurrences</th><th>Gross Units Distributed</th></tr></thead><tbody>";
                             while($r = $res->fetch_assoc()) {
-                                echo "<tr><td>{$r['ItemID']}</td><td>{$r['Description']}</td><td>{$r['Frequency']}</td><td>{$r['TotalUnits']}</td></tr>";
+                                echo "<tr><td>" . htmlspecialchars($r['ItemID']) . "</td><td>" . htmlspecialchars($r['Description']) . "</td><td>" . htmlspecialchars($r['Frequency']) . "</td><td>" . htmlspecialchars($r['TotalUnits']) . "</td></tr>";
                             }
                             echo "</tbody></table>";
                             $stmt->close();
@@ -156,7 +158,7 @@ if (isset($_POST['add_item'])) {
                             $res = $stmt->get_result();
                             echo "<table><thead><tr><th>Member ID</th><th>Full Name</th><th>Total Submissions Logged</th></tr></thead><tbody>";
                             while($r = $res->fetch_assoc()) {
-                                echo "<tr><td>{$r['MemberID']}</td><td>{$r['Name']} {$r['Surname']}</td><td>{$r['OrdersLogged']}</td></tr>";
+                                echo "<tr><td>" . htmlspecialchars($r['MemberID']) . "</td><td>" . htmlspecialchars($r['Name']) . " " . htmlspecialchars($r['Surname']) . "</td><td>" . htmlspecialchars($r['OrdersLogged']) . "</td></tr>";
                             }
                             echo "</tbody></table>";
                             $stmt->close();
