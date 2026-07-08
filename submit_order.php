@@ -6,10 +6,6 @@ header('Content-Type: application/json');
 
 require_once 'db_config.php';
 
-
-// ============================================================
-// SESSION VALIDATION
-// ============================================================
 if (
     !isset($_SESSION['username']) ||
     $_SESSION['role'] !== 'Member'
@@ -24,10 +20,6 @@ if (
 
 }
 
-
-// ============================================================
-// READ JSON INPUT
-// ============================================================
 $inputData = json_decode(
     file_get_contents('php://input'),
     true
@@ -48,19 +40,12 @@ if (
 
 }
 
+$memberId = $_SESSION['username'];
 
-$memberId =
-    $_SESSION['username'];
-
-$orderDate =
-    date('Y-m-d');
+$orderDate = date('Y-m-d');
 
 $successCount = 0;
 
-
-// ============================================================
-// INSERT ORDERS
-// ============================================================
 $stmt = $conn->prepare(
     "INSERT INTO tblmemberorders
     (
@@ -91,32 +76,22 @@ if (!$stmt) {
 
 }
 
-
-// ============================================================
-// PROCESS CART ITEMS
-// ============================================================
 foreach ($inputData['cart'] as $item) {
 
-    $itemId =
-        trim($item['id'] ?? '');
+    $itemId = trim($item['id'] ?? '');
 
-    $qty =
-        intval($item['qty'] ?? 0);
+    $qty = intval($item['qty'] ?? 0);
 
-    $price =
-        floatval($item['price'] ?? 0);
+    $price = floatval($item['price'] ?? 0);
 
     if (
         $itemId === '' ||
         $qty <= 0
     ) {
-
         continue;
-
     }
 
-    $totalPrice =
-        $price * $qty;
+    $totalPrice = $price * $qty;
 
     $stmt->bind_param(
         "sssid",
@@ -128,19 +103,13 @@ foreach ($inputData['cart'] as $item) {
     );
 
     if ($stmt->execute()) {
-
         $successCount++;
-
     }
 
 }
 
 $stmt->close();
 
-
-// ============================================================
-// RESPONSE
-// ============================================================
 if ($successCount > 0) {
 
     echo json_encode([
@@ -159,5 +128,6 @@ if ($successCount > 0) {
 
 $conn->close();
 
+exit();
+
 ?>
-``
