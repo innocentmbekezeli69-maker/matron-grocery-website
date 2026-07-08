@@ -20,18 +20,18 @@ function renderItemCard(
 ) {
 
     $imageSrc =
-    "https://matron-grocery-api.onrender.com/images/" .
-    urlencode($image);
+        "https://matron-grocery-api.onrender.com/images/" .
+        urlencode($image);
 
     echo '<div class="product-card">';
 
     echo '<div class="product-image-container">';
 
-   echo '<img src="' .
-     $imageSrc .
-     '" alt="' .
-     htmlspecialchars($desc) .
-     '" 
+    echo 'Src . '"
+            alt="' . htmlspecialchars($desc) . '"
+            class="product-img"
+            onclick="openImageModal(this)"
+            style="cursor:pointer;">';
 
     echo '</div>';
 
@@ -65,7 +65,6 @@ function renderItemCard(
     echo '</div>';
 
     echo '</div>';
-
 }
 
 ?>
@@ -81,7 +80,9 @@ function renderItemCard(
         Resident Order Portal
     </title>
 
-    <link rel="stylesheet" href="styles.css">
+    <link
+        rel="stylesheet"
+        href="styles.css">
 
 </head>
 
@@ -95,19 +96,20 @@ function renderItemCard(
 
     <div class="nav-user">
 
-    Active Session:
+        Active Session:
 
-    <span id="userDisplay">
-        <?php echo htmlspecialchars($_SESSION['username']); ?>
-    </span>
+        <span id="userDisplay">
+            <?php echo htmlspecialchars($_SESSION['username']); ?>
+        </span>
 
-    |
+        |
 
-    .php" class="logout-link">
-        Sign Out
-    </a>
+        <a href="logout.php" class="logout-link">
+            Sign Out
+        </a>
 
-</div>
+    </div>
+
 </header>
 
 <div class="main-layout">
@@ -132,8 +134,10 @@ function renderItemCard(
 
             $result = $conn->query($sql);
 
-            if ($result &&
-                $result->num_rows > 0) {
+            if (
+                $result &&
+                $result->num_rows > 0
+            ) {
 
                 while (
                     $row =
@@ -236,7 +240,9 @@ let cart = [];
 function addToCart(id, desc, price)
 {
     const existingItem =
-        cart.find(item => item.id === id);
+        cart.find(
+            item => item.id === id
+        );
 
     if (existingItem)
     {
@@ -323,7 +329,7 @@ function submitFinalOrder()
 {
     if (cart.length === 0)
     {
-        alert("Your cart is empty!");
+        alert('Your cart is empty!');
         return;
     }
 
@@ -398,9 +404,12 @@ function openImageModal(imgElement)
 
 function closeImageModal()
 {
-    document.getElementById(
-        'imagePreviewModal'
-    ).classList.remove(
+    const modal =
+        document.getElementById(
+            'imagePreviewModal'
+        );
+
+    modal.classList.remove(
         'is-visible'
     );
 }
