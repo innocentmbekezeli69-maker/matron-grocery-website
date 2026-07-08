@@ -104,15 +104,13 @@ require_once 'db_config.php';
 
                 echo '<div class="product-card">';
 
-                echo '<div class="product-image-container">';
+               echo '<div class="product-image-container">';
 
-                echo 'Src . '"
-                        alt="' . htmlspecialchars($desc) . '"
-                        class="product-img"
-                        onclick="openImageModal(this)"
-                        style="cursor:pointer;">';
-
-                echo '</div>';
+echo '<img src="' .
+     $imageSrc .
+     '" alt="' .
+     htmlspecialchars($desc) .
+     '" o '</div>';
 
                 echo '<div class="product-info">';
 
