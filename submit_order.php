@@ -1,50 +1,163 @@
 <?php
+
 session_start();
+
 header('Content-Type: application/json');
+
 require_once 'db_config.php';
 
-// Security check: Verify the user has an active, authenticated member session
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Member') {
-    echo json_encode(["success" => false, "message" => "Unauthorized User Session Context."]);
+
+// ============================================================
+// SESSION VALIDATION
+// ============================================================
+if (
+    !isset($_SESSION['username']) ||
+    $_SESSION['role'] !== 'Member'
+) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Unauthorized user session."
+    ]);
+
     exit();
+
 }
 
-// Receive the raw JSON payload containing the shopping cart array from the browser frontend
-$inputData = json_decode(file_get_contents('php://input'), true);
 
-if (!empty($inputData['cart'])) {
-    $memberId = $_SESSION['username'];
-    $orderDate = date('Y-m-d'); // Captures the exact system timestamp of submission
-    $successCount = 0;
+// ============================================================
+// READ JSON INPUT
+// ============================================================
+$inputData = json_decode(
+    file_get_contents('php://input'),
+    true
+);
 
-    // Use a safe MySQL prepared statement to prevent injection vulnerabilities
-    $stmt = $conn->prepare("INSERT INTO tblMemberOrders (MemberID, OrderDate, ItemID, Quantity, TotalPrice) VALUES (?, ?, ?, ?, ?)");
+if (
+    !$inputData ||
+    !isset($inputData['cart']) ||
+    count($inputData['cart']) === 0
+) {
 
-    if ($stmt) {
-        foreach ($inputData['cart'] as $item) {
-            $itemId = $item['id'];
-            $qty = intval($item['qty']);
-            $totalPrice = floatval($item['price']) * $qty;
+    echo json_encode([
+        "success" => false,
+        "message" => "Your cart is empty."
+    ]);
 
-            // Bind the structural row types matching your table mapping script parameters
-            $stmt->bind_param("sssid", $memberId, $orderDate, $itemId, $qty, $totalPrice);
-            
-            if ($stmt->execute()) {
-                $successCount++;
-            }
-        }
-        $stmt->close();
+    exit();
+
+}
+
+
+$memberId =
+    $_SESSION['username'];
+
+$orderDate =
+    date('Y-m-d');
+
+$successCount = 0;
+
+
+// ============================================================
+// INSERT ORDERS
+// ============================================================
+$stmt = $conn->prepare(
+    "INSERT INTO tblmemberorders
+    (
+        MemberID,
+        OrderDate,
+        ItemID,
+        Quantity,
+        TotalPrice
+    )
+    VALUES
+    (
+        ?,
+        ?,
+        ?,
+        ?,
+        ?
+    )"
+);
+
+if (!$stmt) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => $conn->error
+    ]);
+
+    exit();
+
+}
+
+
+// ============================================================
+// PROCESS CART ITEMS
+// ============================================================
+foreach ($inputData['cart'] as $item) {
+
+    $itemId =
+        trim($item['id'] ?? '');
+
+    $qty =
+        intval($item['qty'] ?? 0);
+
+    $price =
+        floatval($item['price'] ?? 0);
+
+    if (
+        $itemId === '' ||
+        $qty <= 0
+    ) {
+
+        continue;
+
     }
 
-    // Return a JSON operational status packet back to the browser interface
-    if ($successCount > 0) {
-        echo json_encode(["success" => true, "message" => "All item segments stored cleanly in the database system."]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Database rejected transaction execution inputs."]);
+    $totalPrice =
+        $price * $qty;
+
+    $stmt->bind_param(
+        "sssid",
+        $memberId,
+        $orderDate,
+        $itemId,
+        $qty,
+        $totalPrice
+    );
+
+    if ($stmt->execute()) {
+
+        $successCount++;
+
     }
+
+}
+
+$stmt->close();
+
+
+// ============================================================
+// RESPONSE
+// ============================================================
+if ($successCount > 0) {
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Order submitted successfully."
+    ]);
+
 } else {
-    echo json_encode(["success" => false, "message" => "Empty basket arrays compiled."]);
+
+    echo json_encode([
+        "success" => false,
+        "message" => "No order records were saved."
+    ]);
+
 }
 
 $conn->close();
+
 ?>
+``
