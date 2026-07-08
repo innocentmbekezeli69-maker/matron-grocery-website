@@ -1,0 +1,580 @@
+/* =========================================================================
+   1. PRODUCT CARD IMAGE LAYOUT & CONTROLS
+   ========================================================================= */
+.product-image-container {
+    width: 100%;
+    height: 180px;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops the image cleanly into the card space without distortion */
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05); /* Modern subtle zoom effect on card hover */
+}
+
+/* =========================================================================
+   2. LIGHTBOX IMAGE POPUP MODAL (CONTAINED BLOCK)
+   ========================================================================= */
+.image-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.75); /* Slate gray dark overlay fade */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Toggled Visible Activation State */
+.image-modal-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Contained Sizing Box wrapper */
+.image-modal-content {
+    background-color: #ffffff;
+    padding: 8px;
+    border-radius: 8px;
+    position: relative;
+    width: 90%;
+    max-width: 400px; /* Limits the modal window so it doesn't get too big */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.image-modal-content img {
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+}
+
+/* Close UI Floating Element Control Button */
+.image-modal-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background-color: #ef4444;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.15s;
+}
+
+.image-modal-close:hover {
+    background-color: #dc2626;
+}
+/* =========================================================================
+   PRODUCT CARD IMAGE RESIZING GRAPHICS
+   ========================================================================= */
+.product-image-container {
+    width: 100%;
+    height: 180px;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops image cleanly into the card boundaries */
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05); /* Modern slight zoom effect on hover */
+}
+/* =========================================================================
+   ROLE SELECTION COMPONENT PILL BUTTONS
+   ========================================================================= */
+.role-selector-container {
+    display: flex;
+    position: relative;
+    background-color: #f1f5f9;
+    padding: 4px;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid #e2e8f0;
+}
+
+.role-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.25s ease;
+}
+
+.role-toggle-btn.active {
+    color: #ffffff;
+}
+
+/* Sliding Background Indicator Pill Block Element Properties */
+.toggle-bg-pill {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: calc(50% - 4px);
+    background-color: #0f172a;
+    border-radius: 6px;
+    z-index: 1;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.member-selected {
+    transform: translateX(0);
+}
+
+.admin-selected {
+    transform: translateX(100%);
+}
+/* =========================================================================
+   GLOBAL RESET & THEME UTILITIES
+   ========================================================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+/* Auth Backdrop Screen */
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+}
+
+/* =========================================================================
+   CARD COMPONENT LAYOUTS (Login, Forms, Sections)
+   ========================================================================= */
+.login-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 440px;
+}
+
+.login-container h2 {
+    color: #0f172a;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.login-container p {
+    color: #64748b;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 1.5rem 0;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .inline-form input, .inline-form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: #1e293b;
+    transition: all 0.2s;
+}
+
+.form-group input:focus, .inline-form input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* =========================================================================
+   BUTTON CONTROLS & INTERACTIVE UI
+   ========================================================================= */
+.btn-primary {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-add {
+    width: 100%;
+    background-color: #0f172a;
+    color: white;
+    border: none;
+    padding: 0.625rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+    background-color: #1e293b;
+}
+
+.btn-report {
+    flex: 1;
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-report:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.btn-checkout {
+    width: 100%;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 0.875rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-checkout:hover {
+    background-color: #15803d;
+}
+
+/* =========================================================================
+   NAVIGATION APPLICATION HEADER
+   ========================================================================= */
+.navbar {
+    background-color: #0f172a;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.nav-user {
+    font-size: 0.925rem;
+    color: #94a3b8;
+}
+
+.nav-user strong, .nav-user span {
+    color: #f8fafc;
+}
+
+.logout-link {
+    color: #f87171;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid #334155;
+}
+
+.logout-link:hover {
+    color: #ef4444;
+}
+
+/* =========================================================================
+   MEMBER VIEWPORT VIEW CONFIGURATION
+   ========================================================================= */
+.main-layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 2rem auto;
+    gap: 2rem;
+    padding: 0 1.5rem;
+}
+
+.catalog-section {
+    flex: 3;
+}
+
+.catalog-section h3, .cart-section h3, .admin-section h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-info h4 {
+    font-size: 1.1rem;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+}
+
+.item-id {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.price {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1.25rem;
+}
+
+/* Shopping Cart Aside Menu */
+.cart-section {
+    flex: 1;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.empty-msg {
+    color: #64748b;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.cart-total-summary {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    margin: 1.5rem 0;
+    color: #0f172a;
+}
+
+/* =========================================================================
+   ADMINISTRATOR DASHBOARD CONTAINER VIEWS
+   ========================================================================= */
+.admin-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.admin-section {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.inline-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.inline-form input, .inline-form select {
+    flex: 1;
+    min-width: 180px;
+}
+
+.date-filter-form {
+    background-color: #f8fafc;
+    padding: 1.25rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    margin: 1.5rem 0;
+}
+
+.date-filter-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.date-inputs {
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.date-inputs input {
+    width: auto;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    margin-right: 1rem;
+}
+
+.report-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.report-output-window {
+    margin-top: 2rem;
+    border-top: 2px dashed #e2e8f0;
+    padding-top: 1.5rem;
+}
+
+.report-output-window h4 {
+    font-size: 1.2rem;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+/* =========================================================================
+   GRID REPORT TABLES
+   ========================================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+table th, table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+table th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+table tr:hover {
+    background-color: #f8fafc;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.badge-success { background-color: #dcfce7; color: #16a34a; }
+.badge-danger { background-color: #fee2e2; color: #dc2626; }
