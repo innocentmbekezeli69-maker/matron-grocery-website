@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$host = "mysql.railway.internal";
+$host = "hayabusa.proxy.rlwy.net";
 $db_user = "root";
 $db_pass = "ODdiTdUeXiJkRZraKoObScKhLybYReLV";
 $db_name = "railway";
