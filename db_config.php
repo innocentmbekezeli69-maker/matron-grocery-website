@@ -8,7 +8,6 @@ $db_user = "root";
 $db_pass = "ODdiTdUeXiJkRZraKoObScKhLybYReLV";
 $db_name = "railway";
 $db_port = 31364;
-``
 
 $conn = new mysqli(
     $host,
