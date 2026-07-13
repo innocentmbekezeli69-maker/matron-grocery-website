@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $host = "hayabusa.proxy.rlwy.net";
 $db_user = "root";
 $db_pass = "ODdiTdUeXiJkRZraKoObScKhLybYReLV";
@@ -18,10 +15,15 @@ $conn = new mysqli(
 );
 
 if ($conn->connect_error) {
-    die(
-        "Database connection failed: " .
-        $conn->connect_error
-    );
+
+    header("Content-Type: application/json");
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Database connection failed: " . $conn->connect_error
+    ]);
+
+    exit;
 }
 
 $conn->set_charset("utf8");
