@@ -1,10 +1,9 @@
 <?php
-
-$host = "hayabusa.proxy.rlwy.net";
-$db_user = "root";
-$db_pass = "ODdiTdUeXiJkRZraKoObScKhLybYReLV";
-$db_name = "railway";
-$db_port = 31364;
+$host = "sql305.infinityfree.com";
+$db_user = "if0_42260330";
+$db_pass = "NRBKqP6J1yq";
+$db_name = "if0_42260330_matrongroceryDb1";
+$db_port = 3306;
 
 $conn = new mysqli(
     $host,
